@@ -1,13 +1,17 @@
-function Createsession(req, res) {
-  const name = req.body.name;
+const { Word, GameSession } = require("../../models");
+const serializeGameSession = require("../../serializers/gameSession");
 
-  // TODO: WE WILL DO SOMETHING WITH THIS NAME
-  res.json({
-    id: "123",
-    livesleft: 6,
-    result: false,
-    maskedWord: ["_", "_"],
+async function Createsession(req, res) {
+  const name = req.body.name;
+  const word = await Word.findOne();
+  const gameSession = await GameSession.create({
+    Player_name: name,
+    Played_letters: "",
+    wordId: word.id,
+    StartedAt: new Date(),
   });
+
+  res.json(await serializeGameSession(gameSession));
 }
 
 function Playsession(req, res) {
