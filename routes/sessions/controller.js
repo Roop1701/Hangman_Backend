@@ -1,9 +1,14 @@
+const Sequelize = require("sequelize");
 const { Word, GameSession } = require("../../models");
 const serializeGameSession = require("../../serializers/gameSession");
-
+const gameSessionService = require("../../services/game_session_service");
 async function Createsession(req, res) {
   const name = req.body.name;
+  // const word = await Word.findOne({
+  //   order: Sequelize.fn("RANDOM"),
+  // });
   const word = await Word.findOne();
+
   const gameSession = await GameSession.create({
     Player_name: name,
     Played_letters: "",
@@ -14,18 +19,14 @@ async function Createsession(req, res) {
   res.json(await serializeGameSession(gameSession));
 }
 
-function Playsession(req, res) {
+async function Playsession(req, res) {
   const gameID = req.params.id;
   const letter = req.body.letter;
-  console.log(gameID);
-  console.log(letter);
-  //TODO: we'll do something with the letter
-  res.json({
-    id: "123",
-    livesleft: 6,
-    result: false,
-    maskedWord: ["_", "_"],
-  });
+  const gameSession = await GameSession.findByPk(gameID);
+
+  await gameSessionService.playWordInGameSession(gameSession, letter);
+
+  res.json(await serializeGameSession(gameSession));
 }
 
 module.exports = {

@@ -19,7 +19,7 @@ async function serializeGameSession(gameSession) {
   return {
     id: gameSession.id,
     livesleft: lives,
-    result: !!gameSession.EndedAt,
+    result: !!gameSession.endedAt,
     maskedWord: maskedWord,
   };
 }
