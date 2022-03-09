@@ -8,7 +8,7 @@ async function initialize() {
   app.use("/api", Router);
   await sequelize.sync();
   app.listen(7000, () => {
-    console.log("Running application on port 5000");
+    console.log("Running application on port 7000");
   });
 }
 

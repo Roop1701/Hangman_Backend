@@ -1,7 +1,5 @@
 const MAX_LIVES = 6;
 async function markGameCompleted(gameSession) {
-  console.log("Inside Marked Game");
-  console.log(gameSession);
   const gameSessionWord = await gameSession.getWord();
   const ActualWord = gameSessionWord.title;
   const Played_letters = gameSession.Played_letters.split("");
